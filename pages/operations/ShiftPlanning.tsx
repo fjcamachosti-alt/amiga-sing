@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Shift, User } from '../../types';
 import { api } from '../../services/api';
@@ -7,6 +6,7 @@ import { Modal } from '../../components/ui/Modal';
 import { Spinner } from '../../components/ui/Spinner';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { ShiftForm } from './ShiftForm';
+import { ArrowLeft, PlusCircle, Edit, Trash2 } from 'lucide-react';
 
 interface ShiftPlanningProps {
     onBack: () => void;
@@ -26,7 +26,6 @@ export const ShiftPlanning: React.FC<ShiftPlanningProps> = ({ onBack }) => {
         setShifts(shiftsData);
         setUsers(usersData);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -78,10 +77,10 @@ export const ShiftPlanning: React.FC<ShiftPlanningProps> = ({ onBack }) => {
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                     <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Planificación de Turnos</h2>
                 </div>
-                <Button onClick={handleNew} icon={<i data-lucide="plus-circle"></i>}>
+                <Button onClick={handleNew} icon={<PlusCircle />}>
                     Nuevo Turno
                 </Button>
             </div>
@@ -98,8 +97,8 @@ export const ShiftPlanning: React.FC<ShiftPlanningProps> = ({ onBack }) => {
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <button onClick={() => handleEdit(shift)} className="text-primary hover:text-blue-400"><i data-lucide="edit"></i></button>
-                                    <button onClick={() => handleOpenDelete(shift)} className="text-danger hover:text-red-400"><i data-lucide="trash-2"></i></button>
+                                    <button onClick={() => handleEdit(shift)} className="text-primary hover:text-blue-400"><Edit className="h-5 w-5" /></button>
+                                    <button onClick={() => handleOpenDelete(shift)} className="text-danger hover:text-red-400"><Trash2 className="h-5 w-5" /></button>
                                 </div>
                             </div>
                         ))}

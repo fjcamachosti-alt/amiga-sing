@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Vehicle, VehicleStatus, VehicleVisibility, VehicleDocument, User, UserRole } from '../../types';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { api } from '../../services/api';
+import { CheckCircle } from 'lucide-react';
 
 interface VehicleFormProps {
   vehicle: Vehicle | null;
@@ -63,8 +63,6 @@ export const VehicleForm: React.FC<VehicleFormProps> = ({ vehicle, onSave, onCan
         setTechnicians(techs);
     };
     fetchTechs();
-    
-    setTimeout(() => window.lucide?.createIcons(), 0);
   }, [vehicle]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -97,10 +95,6 @@ export const VehicleForm: React.FC<VehicleFormProps> = ({ vehicle, onSave, onCan
           const updatedDoc = { ...doc, expirationDate: date };
           const updatedDocs = [...docs.filter(d => d.name !== name), updatedDoc];
           setFormData(prev => ({ ...prev, [category]: updatedDocs }));
-      } else {
-          // Create placeholder doc if setting date before upload (optional, but usually we attach to file)
-          // For now, only update if doc exists or create dummy? 
-          // Better: Users typically upload file first.
       }
   };
   
@@ -131,7 +125,7 @@ export const VehicleForm: React.FC<VehicleFormProps> = ({ vehicle, onSave, onCan
        <div key={docItem.name} className="flex items-center justify-between gap-4 border-b border-gray-700 py-2 flex-wrap">
             <div className="w-full sm:w-1/3">
                 <label className="text-sm block">{docItem.name}</label>
-                {doc && <span className="text-xs text-green-400 flex items-center gap-1"><i data-lucide="check-circle" className="h-3 w-3"></i> Cargado</span>}
+                {doc && <span className="text-xs text-green-400 flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Cargado</span>}
             </div>
             
             <div className="flex items-center gap-2 flex-grow">

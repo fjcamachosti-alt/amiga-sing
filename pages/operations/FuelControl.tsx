@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { FuelLog, Vehicle } from '../../types';
 import { api } from '../../services/api';
@@ -7,6 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { Input } from '../../components/ui/Input';
 import { Spinner } from '../../components/ui/Spinner';
+import { ArrowLeft, PlusCircle, Search } from 'lucide-react';
 
 interface FuelControlProps {
     onBack: () => void;
@@ -32,7 +32,6 @@ export const FuelControl: React.FC<FuelControlProps> = ({ onBack }) => {
         setLogs(l);
         setVehicles(v);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -74,10 +73,10 @@ export const FuelControl: React.FC<FuelControlProps> = ({ onBack }) => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                     <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Control de Combustible</h2>
                 </div>
-                <Button onClick={() => setIsModalOpen(true)} icon={<i data-lucide="plus-circle"></i>}>
+                <Button onClick={() => setIsModalOpen(true)} icon={<PlusCircle />}>
                     Registrar Repostaje
                 </Button>
             </div>
@@ -108,7 +107,7 @@ export const FuelControl: React.FC<FuelControlProps> = ({ onBack }) => {
                         className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-lucide="search" className="text-gray-400"></i>
+                        <Search className="text-gray-400 h-5 w-5" />
                     </div>
                 </div>
             </div>

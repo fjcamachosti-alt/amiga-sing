@@ -1,11 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
-import { User, Shift, Vehicle, UserDocument } from '../../types';
+import { User, Shift, Vehicle, UserDocument, VehicleStatus } from '../../types';
 import { api } from '../../services/api';
 import { Card } from '../../components/ui/Card';
 import { Spinner } from '../../components/ui/Spinner';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { CheckCircle, Ambulance } from 'lucide-react';
 
 interface MyProfileProps {
     user: User;
@@ -36,7 +36,6 @@ export const MyProfile: React.FC<MyProfileProps> = ({ user }) => {
             setAssignedVehicles(vehicles);
             setFormData(user); // Sync local state
             setLoading(false);
-            setTimeout(() => window.lucide?.createIcons(), 0);
         };
         fetchData();
     }, [user.id, user]);
@@ -79,7 +78,7 @@ export const MyProfile: React.FC<MyProfileProps> = ({ user }) => {
                   <label className="text-sm text-gray-300">{docName}</label>
                   {docs.find(d => d.name === docName) ? (
                       <div className="flex items-center gap-2 text-green-400 text-sm">
-                          <i data-lucide="check-circle" className="h-4 w-4"></i>
+                          <CheckCircle className="h-4 w-4" />
                           <span>Cargado</span>
                           <span className="text-xs text-gray-500">({docs.find(d => d.name === docName)?.uploadDate})</span>
                       </div>
@@ -155,13 +154,13 @@ export const MyProfile: React.FC<MyProfileProps> = ({ user }) => {
                                 {assignedVehicles.map(v => (
                                     <li key={v.id} className="bg-gray-800 p-3 rounded flex justify-between items-center">
                                         <div className="flex items-center gap-3">
-                                            <i data-lucide="ambulance" className="text-primary"></i>
+                                            <Ambulance className="text-primary h-5 w-5" />
                                             <div>
                                                 <p className="font-bold">{v.matricula}</p>
                                                 <p className="text-xs text-gray-400">{v.marca} {v.modelo}</p>
                                             </div>
                                         </div>
-                                        <span className="text-xs px-2 py-1 bg-gray-700 rounded-full">{v.estado}</span>
+                                        <span className={`text-xs px-2 py-1 rounded-full ${v.estado === VehicleStatus.Disponible ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>{v.estado}</span>
                                     </li>
                                 ))}
                             </ul>

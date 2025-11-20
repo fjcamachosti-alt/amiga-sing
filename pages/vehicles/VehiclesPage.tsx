@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Vehicle, VehicleStatus, UserRole, User } from '../../types';
 import { api } from '../../services/api';
@@ -9,6 +8,7 @@ import { VehicleForm } from './VehicleForm';
 import { VehicleDetails } from './VehicleDetails';
 import { Select } from '../../components/ui/Select';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
+import { PlusCircle, Search } from 'lucide-react';
 
 interface VehiclesPageProps {
     user: User;
@@ -40,7 +40,6 @@ export const VehiclesPage: React.FC<VehiclesPageProps> = ({ user }) => {
             const data = await api.getVehicles(userIdFilter); 
             setVehicles(data);
             setLoading(false);
-            setTimeout(() => window.lucide?.createIcons(), 0);
         }
         init();
     }, [user]);
@@ -117,7 +116,7 @@ export const VehiclesPage: React.FC<VehiclesPageProps> = ({ user }) => {
                 <h2 className="text-3xl font-bold">Gestión de Vehículos</h2>
                 {/* Only Admin/Gestor/Office can create vehicles */}
                 {(user.rol !== UserRole.Tecnico && user.rol !== UserRole.Medico) && (
-                    <Button onClick={handleNewVehicle} icon={<i data-lucide="plus-circle"></i>}>
+                    <Button onClick={handleNewVehicle} icon={<PlusCircle />}>
                         Nuevo Vehículo
                     </Button>
                 )}
@@ -134,7 +133,7 @@ export const VehiclesPage: React.FC<VehiclesPageProps> = ({ user }) => {
                         className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-lucide="search" className="text-gray-400"></i>
+                        <Search className="text-gray-400 h-5 w-5" />
                     </div>
                     
                     <datalist id="vehicle-search-suggestions">

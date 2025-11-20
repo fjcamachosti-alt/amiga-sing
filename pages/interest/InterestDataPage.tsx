@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { InterestData } from '../../types';
@@ -7,6 +6,7 @@ import { Spinner } from '../../components/ui/Spinner';
 import { Button } from '../../components/ui/Button';
 import { Textarea } from '../../components/ui/Textarea';
 import { Input } from '../../components/ui/Input';
+import { Plus, Edit2 } from 'lucide-react';
 
 export const InterestDataPage: React.FC = () => {
     const [data, setData] = useState<InterestData[]>([]);
@@ -20,7 +20,6 @@ export const InterestDataPage: React.FC = () => {
         const result = await api.getInterestData();
         setData(result);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -58,7 +57,7 @@ export const InterestDataPage: React.FC = () => {
             <div className="flex justify-between items-center">
                 <h2 className="text-3xl font-bold">Datos de Interés Corporativo</h2>
                 {!isAdding && !editingId && (
-                    <Button onClick={() => setIsAdding(true)} icon={<i data-lucide="plus"></i>}>Añadir Nota</Button>
+                    <Button onClick={() => setIsAdding(true)} icon={<Plus />}>Añadir Nota</Button>
                 )}
             </div>
 
@@ -92,7 +91,7 @@ export const InterestDataPage: React.FC = () => {
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="text-xl font-bold text-primary">{item.title}</h3>
                             <button onClick={() => handleEdit(item)} className="text-gray-400 hover:text-white">
-                                <i data-lucide="edit-2" className="h-5 w-5"></i>
+                                <Edit2 className="h-5 w-5" />
                             </button>
                         </div>
                         <p className="text-gray-300 whitespace-pre-wrap">{item.content}</p>

@@ -6,6 +6,7 @@ import { Modal } from '../../components/ui/Modal';
 import { Spinner } from '../../components/ui/Spinner';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { MedicalSupplyForm } from './MedicalSupplyForm';
+import { ArrowLeft, PlusCircle } from 'lucide-react';
 
 interface MedicalInventoryProps {
     onBack: () => void;
@@ -45,7 +46,6 @@ export const MedicalInventory: React.FC<MedicalInventoryProps> = ({ onBack }) =>
         const data = await api.getMedicalSupplies();
         setSupplies(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -87,10 +87,10 @@ export const MedicalInventory: React.FC<MedicalInventoryProps> = ({ onBack }) =>
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                    <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                    <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Inventario Médico</h2>
                 </div>
-                <Button onClick={handleNew} icon={<i data-lucide="plus-circle"></i>}>
+                <Button onClick={handleNew} icon={<PlusCircle />}>
                     Añadir Artículo
                 </Button>
             </div>

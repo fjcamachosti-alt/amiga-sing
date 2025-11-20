@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { User, UserRole } from '../../types';
 import { api } from '../../services/api';
@@ -7,6 +6,7 @@ import { Spinner } from '../../components/ui/Spinner';
 import { Modal } from '../../components/ui/Modal';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { UserForm } from '../users/UserForm';
+import { ArrowLeft, UserPlus, Search } from 'lucide-react';
 
 interface AccountManagementProps {
     onBack: () => void;
@@ -25,7 +25,6 @@ export const AccountManagement: React.FC<AccountManagementProps> = ({ onBack }) 
         const data = await api.getUsers();
         setUsers(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -82,10 +81,10 @@ export const AccountManagement: React.FC<AccountManagementProps> = ({ onBack }) 
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                  <div className="flex items-center gap-4">
-                     <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Gestión de Cuentas de Acceso</h2>
                 </div>
-                <Button onClick={handleNewUser} icon={<i data-lucide="user-plus"></i>}>
+                <Button onClick={handleNewUser} icon={<UserPlus />}>
                     Nueva Cuenta
                 </Button>
             </div>
@@ -100,7 +99,7 @@ export const AccountManagement: React.FC<AccountManagementProps> = ({ onBack }) 
                         className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-lucide="search" className="text-gray-400"></i>
+                        <Search className="text-gray-400 h-5 w-5" />
                     </div>
                 </div>
             </div>

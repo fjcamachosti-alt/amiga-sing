@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { User, UserRole } from '../../types';
 import { api } from '../../services/api';
@@ -7,6 +6,7 @@ import { Spinner } from '../../components/ui/Spinner';
 import { Modal } from '../../components/ui/Modal';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { UserForm } from './UserForm';
+import { UserPlus, Search } from 'lucide-react';
 
 export const UsersPage: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -21,7 +21,6 @@ export const UsersPage: React.FC = () => {
         const data = await api.getUsers();
         setUsers(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -85,7 +84,7 @@ export const UsersPage: React.FC = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-3xl font-bold">Gestión de Empleados</h2>
-                <Button onClick={handleNewUser} icon={<i data-lucide="user-plus"></i>}>
+                <Button onClick={handleNewUser} icon={<UserPlus />}>
                     Nuevo Empleado
                 </Button>
             </div>
@@ -100,7 +99,7 @@ export const UsersPage: React.FC = () => {
                         className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-lucide="search" className="text-gray-400"></i>
+                        <Search className="text-gray-400 h-5 w-5" />
                     </div>
                 </div>
             </div>

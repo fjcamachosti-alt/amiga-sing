@@ -6,6 +6,7 @@ import { Modal } from '../../components/ui/Modal';
 import { Spinner } from '../../components/ui/Spinner';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { ClientForm } from './ClientForm';
+import { ArrowLeft, PlusCircle, Search } from 'lucide-react';
 
 interface ClientManagementProps {
     onBack: () => void;
@@ -24,7 +25,6 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({ onBack }) =>
         const data = await api.getClients();
         setClients(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -74,10 +74,10 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({ onBack }) =>
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                  <div className="flex items-center gap-4">
-                     <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Gestión de Clientes</h2>
                 </div>
-                <Button onClick={handleNew} icon={<i data-lucide="plus-circle"></i>}>
+                <Button onClick={handleNew} icon={<PlusCircle />}>
                     Nuevo Cliente
                 </Button>
             </div>
@@ -92,7 +92,7 @@ export const ClientManagement: React.FC<ClientManagementProps> = ({ onBack }) =>
                         className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                     />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-lucide="search" className="text-gray-400"></i>
+                        <Search className="text-gray-400 h-5 w-5" />
                     </div>
                 </div>
             </div>

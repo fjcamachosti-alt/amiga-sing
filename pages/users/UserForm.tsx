@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { User, UserRole, UserDocument, UserPermissions } from '../../types';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { CheckCircle } from 'lucide-react';
 
 interface UserFormProps {
   user: User | null;
@@ -26,7 +26,6 @@ export const UserForm: React.FC<UserFormProps> = ({ user, onSave, onCancel, isAc
   useEffect(() => {
     setFormData(user || { activo: true, rol: UserRole.Tecnico });
     setPassword(''); // Reset password on form open
-     setTimeout(() => window.lucide?.createIcons(), 0);
   }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -92,7 +91,7 @@ export const UserForm: React.FC<UserFormProps> = ({ user, onSave, onCancel, isAc
               <label className="text-sm">{docName}</label>
               {docs.find(d => d.name === docName) ? (
                   <div className="flex items-center gap-2 text-green-400 text-sm">
-                      <i data-lucide="check-circle" className="h-4 w-4"></i>
+                      <CheckCircle className="h-4 w-4" />
                       <span>Cargado</span>
                   </div>
               ) : (

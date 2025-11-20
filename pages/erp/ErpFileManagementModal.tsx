@@ -6,6 +6,7 @@ import { Spinner } from '../../components/ui/Spinner';
 import { Button } from '../../components/ui/Button';
 import { ConfirmationModal } from '../../components/ui/ConfirmationModal';
 import { Input } from '../../components/ui/Input';
+import { FileText, Search, Trash2 } from 'lucide-react';
 
 interface ErpFileManagementModalProps {
   isOpen: boolean;
@@ -29,7 +30,6 @@ export const ErpFileManagementModal: React.FC<ErpFileManagementModalProps> = ({ 
         const data = await api.getErpFiles(category);
         setFiles(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -110,7 +110,7 @@ export const ErpFileManagementModal: React.FC<ErpFileManagementModalProps> = ({ 
                             className="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 text-white"
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i data-lucide="search" className="text-gray-400"></i>
+                            <Search className="text-gray-400 h-5 w-5" />
                         </div>
                     </div>
 
@@ -120,7 +120,7 @@ export const ErpFileManagementModal: React.FC<ErpFileManagementModalProps> = ({ 
                                 {filteredFiles.map(file => (
                                     <li key={file.id} className="flex justify-between items-center p-3 bg-gray-800 rounded-md">
                                         <div className="flex items-center gap-3">
-                                            <i data-lucide="file-text" className="h-5 w-5 text-primary"></i>
+                                            <FileText className="h-5 w-5 text-primary" />
                                             <div>
                                                 <p className="font-medium text-sm">{file.name}</p>
                                                 <p className="text-xs text-gray-400">
@@ -130,7 +130,7 @@ export const ErpFileManagementModal: React.FC<ErpFileManagementModalProps> = ({ 
                                             </div>
                                         </div>
                                         <button onClick={() => setFileToDelete(file)} className="text-danger hover:text-red-400">
-                                            <i data-lucide="trash-2" className="h-5 w-5"></i>
+                                            <Trash2 className="h-5 w-5" />
                                         </button>
                                     </li>
                                 ))}
