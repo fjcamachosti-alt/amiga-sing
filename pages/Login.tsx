@@ -1,11 +1,12 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
 import { api } from '../services/api';
 import { tokenService } from '../services/tokenService';
 import { User } from '../types';
+import { Ambulance } from 'lucide-react';
 
 interface LoginProps {
   onLogin: (user: User) => void;
@@ -16,10 +17,6 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    window.lucide?.createIcons();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +39,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <Card className="w-full max-w-md">
         <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-                <i data-lucide="ambulance" className="h-24 w-24 text-primary"></i>
+                <Ambulance className="h-24 w-24 text-primary" />
             </div>
             <h1 className="text-4xl font-bold mt-4">AMIGA</h1>
             <p className="text-sm text-gray-400 mt-2">Aplicación Modular Inteligente de Gestion Avanzada</p>

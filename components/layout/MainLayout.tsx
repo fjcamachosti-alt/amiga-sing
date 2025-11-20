@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { Page, User } from '../../types';
@@ -14,11 +14,6 @@ interface MainLayoutProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children, onLogout, currentPage, onNavigate, user }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    // This is to ensure lucide icons are rendered after component mount/update
-    window.lucide?.createIcons();
-  });
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 

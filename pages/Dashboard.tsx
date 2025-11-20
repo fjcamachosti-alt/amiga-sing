@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Spinner } from '../components/ui/Spinner';
 import { api } from '../services/api';
-import { Alert, Incident, Vehicle, User, UserRole } from '../types';
+import { Alert, Incident, Vehicle, User } from '../types';
 import { Button } from '../components/ui/Button';
 import { UserForm } from './users/UserForm';
 import { VehicleForm } from './vehicles/VehicleForm';
 import { Modal } from '../components/ui/Modal';
+import { Plus, UserPlus, Siren, Users, Bell, Wrench } from 'lucide-react';
 
-const StatCard: React.FC<{ title: string; value: string | number; icon: React.JSX.Element; color: string }> = ({ title, value, icon, color }) => (
+const StatCard: React.FC<{ title: string; value: string | number; icon: React.ElementType; color: string }> = ({ title, value, icon: Icon, color }) => (
     <Card className="flex items-center gap-4">
         <div className={`p-3 rounded-full ${color}`}>
-            {icon}
+            <Icon className="h-6 w-6" />
         </div>
         <div>
             <p className="text-gray-400">{title}</p>
@@ -33,10 +34,8 @@ export const Dashboard: React.FC = () => {
     } | null>(null);
     const [calendarData, setCalendarData] = useState<{date: string, shifts: number}[]>([]);
     
-    // Quick Actions State
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
     const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,7 +43,6 @@ export const Dashboard: React.FC = () => {
             const dashboardData = await api.getDashboardData();
             const shifts = await api.getShifts();
             
-            // Generate 15 day calendar data
             const next15Days = Array.from({length: 15}, (_, i) => {
                 const d = new Date();
                 d.setDate(d.getDate() + i);
@@ -59,8 +57,6 @@ export const Dashboard: React.FC = () => {
             setData(dashboardData);
             setCalendarData(calData);
             setLoading(false);
-            
-            setTimeout(() => window.lucide?.createIcons(), 0);
         };
         fetchData();
     }, []);
@@ -68,7 +64,6 @@ export const Dashboard: React.FC = () => {
     const handleSaveUser = async (user: User) => {
         await api.saveUser(user);
         setIsUserModalOpen(false);
-        // Refresh data
         const newData = await api.getDashboardData();
         setData(prev => prev ? ({...prev, totalWorkers: newData.totalWorkers}) : null);
     };
@@ -80,7 +75,6 @@ export const Dashboard: React.FC = () => {
         setData(prev => prev ? ({...prev, totalVehicles: newData.totalVehicles}) : null);
     };
 
-
     if (loading) return <Spinner />;
     if (!data) return <p>No se pudieron cargar los datos del dashboard.</p>;
 
@@ -89,18 +83,17 @@ export const Dashboard: React.FC = () => {
             <div className="flex justify-between items-center">
                 <h2 className="text-3xl font-bold">Panel de Control Principal</h2>
                 <div className="flex gap-3">
-                    <Button onClick={() => setIsVehicleModalOpen(true)} icon={<i data-lucide="plus"></i>}>Nuevo Vehículo</Button>
-                    <Button onClick={() => setIsUserModalOpen(true)} icon={<i data-lucide="user-plus"></i>}>Nuevo Empleado</Button>
+                    <Button onClick={() => setIsVehicleModalOpen(true)} icon={<Plus />}>Nuevo Vehículo</Button>
+                    <Button onClick={() => setIsUserModalOpen(true)} icon={<UserPlus />}>Nuevo Empleado</Button>
                 </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <StatCard title="Total Vehículos" value={data.totalVehicles} icon={<i data-lucide="siren"></i>} color="bg-blue-500/20 text-blue-400" />
-                <StatCard title="Total Trabajadores" value={data.totalWorkers} icon={<i data-lucide="users"></i>} color="bg-green-500/20 text-green-400" />
-                <StatCard title="Alertas Pendientes" value={data.pendingAlerts} icon={<i data-lucide="bell"></i>} color="bg-red-500/20 text-red-400" />
+                <StatCard title="Total Vehículos" value={data.totalVehicles} icon={Siren} color="bg-blue-500/20 text-blue-400" />
+                <StatCard title="Total Trabajadores" value={data.totalWorkers} icon={Users} color="bg-green-500/20 text-green-400" />
+                <StatCard title="Alertas Pendientes" value={data.pendingAlerts} icon={Bell} color="bg-red-500/20 text-red-400" />
             </div>
             
-            {/* 15 Day Service Calendar */}
             <Card title="Calendario de Servicios (Próximos 15 Días)">
                 <div className="flex gap-2 overflow-x-auto pb-4 custom-scrollbar">
                     {calendarData.map((day, idx) => {
@@ -156,7 +149,7 @@ export const Dashboard: React.FC = () => {
                         {data.recentIncidents.map(incident => (
                             <li key={incident.id} className="flex items-center gap-3 text-sm border-b border-gray-700 pb-2 last:border-0">
                                 <div className="p-2 bg-gray-800 rounded-full">
-                                     <i data-lucide="wrench" className="text-danger h-4 w-4"></i>
+                                     <Wrench className="text-danger h-4 w-4" />
                                 </div>
                                 <div>
                                     <p className="font-semibold">{incident.description}</p>
@@ -172,7 +165,6 @@ export const Dashboard: React.FC = () => {
                 </Card>
             </div>
 
-            {/* Quick Action Modals */}
             <Modal isOpen={isUserModalOpen} onClose={() => setIsUserModalOpen(false)} title="Alta de Nuevo Empleado">
                 <UserForm user={null} onSave={handleSaveUser} onCancel={() => setIsUserModalOpen(false)} />
             </Modal>

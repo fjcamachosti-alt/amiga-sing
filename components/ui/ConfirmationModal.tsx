@@ -1,7 +1,8 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Modal } from './Modal';
 import { Button } from './Button';
+import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -12,12 +13,6 @@ interface ConfirmationModalProps {
 }
 
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, message }) => {
-  useEffect(() => {
-    if (isOpen) {
-      window.lucide?.createIcons();
-    }
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   return (
@@ -25,7 +20,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, on
         <div className="space-y-6">
             <div className="flex items-start gap-4">
                 <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-900 sm:mx-0 sm:h-10 sm:w-10">
-                     <i data-lucide="alert-triangle" className="h-6 w-6 text-danger"></i>
+                     <AlertTriangle className="h-6 w-6 text-danger" />
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <p className="text-lg text-on-surface">{message}</p>

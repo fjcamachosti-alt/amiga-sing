@@ -4,6 +4,7 @@ import { Vehicle, VehicleDocument, User, FuelLog } from '../../types';
 import { Card } from '../../components/ui/Card';
 import { api } from '../../services/api';
 import { Spinner } from '../../components/ui/Spinner';
+import { CheckCircle2, AlertOctagon, AlertTriangle, FileText, Circle } from 'lucide-react';
 
 interface VehicleDetailsProps {
   vehicle: Vehicle;
@@ -27,16 +28,16 @@ const DocumentSection: React.FC<{ title: string; documents: VehicleDocument[]; a
     
     const getExpirationStatus = (dateStr?: string) => {
         if (!dateStr) {
-            return { color: 'bg-green-900 text-green-300 border-green-700', icon: 'check-circle-2', text: 'Vigente' }; 
+            return { color: 'bg-green-900 text-green-300 border-green-700', icon: CheckCircle2, text: 'Vigente' }; 
         }
         const date = new Date(dateStr);
         const now = new Date();
         const thirtyDays = 30 * 24 * 60 * 60 * 1000;
         
-        if (date < now) return { color: 'bg-red-900 text-red-300 border-red-700', icon: 'alert-octagon', text: 'Caducado' };
-        if (date.getTime() - now.getTime() < thirtyDays) return { color: 'bg-yellow-900 text-yellow-300 border-yellow-700', icon: 'alert-triangle', text: 'Expira pronto' };
+        if (date < now) return { color: 'bg-red-900 text-red-300 border-red-700', icon: AlertOctagon, text: 'Caducado' };
+        if (date.getTime() - now.getTime() < thirtyDays) return { color: 'bg-yellow-900 text-yellow-300 border-yellow-700', icon: AlertTriangle, text: 'Expira pronto' };
         
-        return { color: 'bg-green-900 text-green-300 border-green-700', icon: 'check-circle-2', text: 'Vigente' };
+        return { color: 'bg-green-900 text-green-300 border-green-700', icon: CheckCircle2, text: 'Vigente' };
     };
 
     return (
@@ -59,12 +60,12 @@ const DocumentSection: React.FC<{ title: string; documents: VehicleDocument[]; a
                                 <div className="flex items-center gap-3">
                                      {status && (
                                         <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs border ${status.color}`}>
-                                            <i data-lucide={status.icon} className="h-3 w-3"></i>
+                                            <status.icon className="h-3 w-3" />
                                             {status.text}
                                         </span>
                                     )}
                                     <div className="flex items-center gap-2 text-gray-400 border-l border-gray-600 pl-3">
-                                        <i data-lucide="file-text" className="h-4 w-4"></i>
+                                        <FileText className="h-4 w-4" />
                                         <span className="text-xs font-mono hidden sm:inline-block truncate max-w-[100px]">
                                             {typeof doc.file === 'string' ? doc.file : doc.file?.name}
                                         </span>
@@ -72,7 +73,7 @@ const DocumentSection: React.FC<{ title: string; documents: VehicleDocument[]; a
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2 text-gray-500">
-                                    <i data-lucide="circle" className="h-4 w-4"></i>
+                                    <Circle className="h-4 w-4" />
                                     <span>Pendiente</span>
                                 </div>
                             )}
@@ -102,14 +103,9 @@ export const VehicleDetails: React.FC<VehicleDetailsProps> = ({ vehicle }) => {
         const logs = await api.getFuelLogs(vehicle.id);
         setFuelLogs(logs);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
     fetchData();
   }, [vehicle]);
-
-  useEffect(() => {
-      window.lucide?.createIcons();
-  }, [activeTab]);
 
   const renderContent = () => {
       if (activeTab === 'info') {

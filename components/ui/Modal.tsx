@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }
         <div className="flex justify-between items-center p-4 border-b border-gray-600 sticky top-0 bg-surface z-10">
           <h2 className="text-xl font-bold">{title}</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-white">
-            <i data-lucide="x"></i>
+            <X />
           </button>
         </div>
         <div className="p-6">

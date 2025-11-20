@@ -44,11 +44,6 @@ const App: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        // Re-render icons when page changes
-        window.lucide?.createIcons();
-    }, [currentPage, appState.isAuthenticated]);
-
     const handleLogin = (user: User) => {
         setAppState({
             isAuthenticated: true,

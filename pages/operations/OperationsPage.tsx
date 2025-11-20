@@ -12,13 +12,14 @@ import { ShiftPlanning } from './ShiftPlanning';
 import { AccountManagement } from './AccountManagement';
 import { MedicalInventory } from './MedicalInventory';
 import { FuelControl } from './FuelControl';
+import { CalendarDays, KeyRound, AlertTriangle, Syringe, Fuel, ClipboardCheck, ShieldCheck, ArrowLeft, PlusCircle } from 'lucide-react';
 
 type OperationView = 'dashboard' | 'incidents' | 'shifts' | 'accounts' | 'fuel' | 'checklists' | 'inventory' | 'audit';
 
-const OperationItem: React.FC<{ title: string; icon: string; onClick: () => void; }> = ({ title, icon, onClick }) => (
+const OperationItem: React.FC<{ title: string; icon: React.ElementType; onClick: () => void; }> = ({ title, icon: Icon, onClick }) => (
     <button onClick={onClick} className="w-full h-full">
         <Card className="flex flex-col items-center justify-center text-center p-6 hover:bg-gray-700/50 transition-colors h-full">
-            <i data-lucide={icon} className="h-12 w-12 text-primary mb-4"></i>
+            <Icon className="h-12 w-12 text-primary mb-4" />
             <h3 className="font-semibold">{title}</h3>
         </Card>
     </button>
@@ -36,7 +37,6 @@ const IncidentsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         const data = await api.getIncidents();
         setIncidents(data);
         setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
     };
 
     useEffect(() => {
@@ -84,10 +84,10 @@ const IncidentsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
-                     <button onClick={onBack} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={onBack} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Sistema de Incidencias</h2>
                 </div>
-                <Button onClick={handleNew} icon={<i data-lucide="plus-circle"></i>}>
+                <Button onClick={handleNew} icon={<PlusCircle />}>
                     Nueva Incidencia
                 </Button>
             </div>
@@ -147,10 +147,6 @@ interface OperationsPageProps {
 export const OperationsPage: React.FC<OperationsPageProps> = ({ user }) => {
     const [view, setView] = useState<OperationView>('dashboard');
 
-    useEffect(() => {
-        setTimeout(() => window.lucide?.createIcons(), 0);
-    }, [view]);
-
     if (view === 'incidents') return <IncidentsView onBack={() => setView('dashboard')} />;
     if (view === 'shifts') return <ShiftPlanning onBack={() => setView('dashboard')} />;
     if (view === 'accounts') return <AccountManagement onBack={() => setView('dashboard')} />;
@@ -162,7 +158,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({ user }) => {
         return (
              <div className="space-y-6">
                  <div className="flex items-center gap-4">
-                     <button onClick={() => setView('dashboard')} className="text-gray-400 hover:text-white"><i data-lucide="arrow-left"></i></button>
+                     <button onClick={() => setView('dashboard')} className="text-gray-400 hover:text-white"><ArrowLeft /></button>
                     <h2 className="text-3xl font-bold">Módulo en Construcción</h2>
                 </div>
                 <Card>
@@ -173,13 +169,13 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({ user }) => {
     }
 
     const allOperations = [
-        { id: 'shifts', title: 'Planificación de Turnos', icon: 'calendar-days', onClick: () => setView('shifts') },
-        { id: 'accounts', title: 'Gestión de Cuentas', icon: 'key-round', onClick: () => setView('accounts') },
-        { id: 'incidents', title: 'Sistema de Incidencias', icon: 'alert-triangle', onClick: () => setView('incidents') },
-        { id: 'inventory', title: 'Inventario Médico', icon: 'syringe', onClick: () => setView('inventory') },
-        { id: 'fuel', title: 'Control de Combustible', icon: 'fuel', onClick: () => setView('fuel') },
-        { id: 'checklists', title: 'Checklists Digitales', icon: 'clipboard-check', onClick: () => alert("Módulo no implementado.") },
-        { id: 'audit', title: 'Auditoría y Logs', icon: 'shield-check', onClick: () => alert("Módulo no implementado.") },
+        { id: 'shifts', title: 'Planificación de Turnos', icon: CalendarDays, onClick: () => setView('shifts') },
+        { id: 'accounts', title: 'Gestión de Cuentas', icon: KeyRound, onClick: () => setView('accounts') },
+        { id: 'incidents', title: 'Sistema de Incidencias', icon: AlertTriangle, onClick: () => setView('incidents') },
+        { id: 'inventory', title: 'Inventario Médico', icon: Syringe, onClick: () => setView('inventory') },
+        { id: 'fuel', title: 'Control de Combustible', icon: Fuel, onClick: () => setView('fuel') },
+        { id: 'checklists', title: 'Checklists Digitales', icon: ClipboardCheck, onClick: () => alert("Módulo no implementado.") },
+        { id: 'audit', title: 'Auditoría y Logs', icon: ShieldCheck, onClick: () => alert("Módulo no implementado.") },
     ];
 
     // Filter operations based on role

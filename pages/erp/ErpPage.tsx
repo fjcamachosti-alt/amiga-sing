@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { ERPFileCategory } from '../../types';
 import { ClientManagement } from './ClientManagement';
 import { SupplierManagement } from './SupplierManagement';
 import { ErpFileManagementModal } from './ErpFileManagementModal';
+import { FileText, Award, Handshake, Landmark, Receipt, Shield, Contact, Truck, ArrowUpRightFromCircle, ArrowDownLeftFromCircle } from 'lucide-react';
 
 type ErpView = 'dashboard' | 'clients' | 'suppliers';
 
 interface ErpItem {
     title: string;
     description?: string;
-    icon: string;
+    icon: React.ElementType;
     action: () => void;
 }
 
-const ErpItemCard: React.FC<ErpItem> = ({ title, description, icon, action }) => (
+const ErpItemCard: React.FC<ErpItem> = ({ title, description, icon: Icon, action }) => (
     <Card>
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-                <i data-lucide={icon} className="h-8 w-8 text-primary"></i>
+                <Icon className="h-8 w-8 text-primary" />
                 <div>
                     <h4 className="font-bold text-lg">{title}</h4>
                     {description && <p className="text-sm text-gray-400">{description}</p>}
@@ -38,29 +40,25 @@ export const ErpPage: React.FC = () => {
     const [isFileModalOpen, setIsFileModalOpen] = useState(false);
     const [currentFileCategory, setCurrentFileCategory] = useState<ERPFileCategory | null>(null);
 
-    useEffect(() => {
-        window.lucide?.createIcons();
-    }, [activeTab, view]);
-    
     const handleManageFiles = (category: ERPFileCategory) => {
         setCurrentFileCategory(category);
         setIsFileModalOpen(true);
     };
 
     const empresaItems: ErpItem[] = [
-        { title: 'Escrituras', description: 'Documentación de constitución', icon: 'file-text', action: () => handleManageFiles('Escrituras') },
-        { title: 'Certificados', description: 'Calidad, solvencia, liquidez', icon: 'award', action: () => handleManageFiles('Certificados') },
-        { title: 'Contratos', description: 'Trabajadores, clientes, proveedores, servicios', icon: 'handshake', action: () => handleManageFiles('Contratos') },
-        { title: 'Documentos Bancarios', description: 'Créditos, préstamos, hipotecas', icon: 'landmark', action: () => handleManageFiles('Documentos Bancarios') },
-        { title: 'AEAT', description: 'Declaraciones e impuestos', icon: 'receipt', action: () => handleManageFiles('AEAT') },
-        { title: 'Seguridad Social', description: 'Cuotas y pagos', icon: 'shield', action: () => handleManageFiles('Seguridad Social') },
+        { title: 'Escrituras', description: 'Documentación de constitución', icon: FileText, action: () => handleManageFiles('Escrituras') },
+        { title: 'Certificados', description: 'Calidad, solvencia, liquidez', icon: Award, action: () => handleManageFiles('Certificados') },
+        { title: 'Contratos', description: 'Trabajadores, clientes, proveedores, servicios', icon: Handshake, action: () => handleManageFiles('Contratos') },
+        { title: 'Documentos Bancarios', description: 'Créditos, préstamos, hipotecas', icon: Landmark, action: () => handleManageFiles('Documentos Bancarios') },
+        { title: 'AEAT', description: 'Declaraciones e impuestos', icon: Receipt, action: () => handleManageFiles('AEAT') },
+        { title: 'Seguridad Social', description: 'Cuotas y pagos', icon: Shield, action: () => handleManageFiles('Seguridad Social') },
     ];
 
     const gestionItems: ErpItem[] = [
-        { title: 'Clientes', description: 'Gestión de la cartera de clientes', icon: 'contact', action: () => setView('clients') },
-        { title: 'Proveedores', description: 'Gestión de proveedores y servicios', icon: 'truck', action: () => setView('suppliers') },
-        { title: 'Facturas Emitidas', description: 'Control de facturación a clientes', icon: 'arrow-up-right-from-circle', action: () => handleManageFiles('Facturas Emitidas') },
-        { title: 'Facturas Recibidas', description: 'Control de gastos y facturas de proveedores', icon: 'arrow-down-left-from-circle', action: () => handleManageFiles('Facturas Recibidas') },
+        { title: 'Clientes', description: 'Gestión de la cartera de clientes', icon: Contact, action: () => setView('clients') },
+        { title: 'Proveedores', description: 'Gestión de proveedores y servicios', icon: Truck, action: () => setView('suppliers') },
+        { title: 'Facturas Emitidas', description: 'Control de facturación a clientes', icon: ArrowUpRightFromCircle, action: () => handleManageFiles('Facturas Emitidas') },
+        { title: 'Facturas Recibidas', description: 'Control de gastos y facturas de proveedores', icon: ArrowDownLeftFromCircle, action: () => handleManageFiles('Facturas Recibidas') },
     ];
     
     const renderDashboard = () => (
