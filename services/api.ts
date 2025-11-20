@@ -1,6 +1,6 @@
 
-import { mockVehicles, mockUsers, mockAlerts, mockIncidents, mockClients, mockSuppliers, mockErpFiles, mockShifts, mockMedicalSupplies, mockInterestData, mockFuelLogs, mockSignatureDocuments } from '../data/mockData';
-import { Vehicle, User, Incident, Client, Supplier, ERPFile, ERPFileCategory, IncidentStatus, Shift, MedicalSupply, AuthResponse, Alert, InterestData, VehicleDocument, UserDocument, FuelLog, VehicleHistory, SignatureDocument } from '../types';
+import { mockVehicles, mockUsers, mockAlerts, mockIncidents, mockClients, mockSuppliers, mockErpFiles, mockShifts, mockMedicalSupplies, mockInterestData, mockFuelLogs, mockSignedDocuments } from '../data/mockData';
+import { Vehicle, User, Incident, Client, Supplier, ERPFile, ERPFileCategory, IncidentStatus, Shift, MedicalSupply, AuthResponse, Alert, InterestData, VehicleDocument, UserDocument, FuelLog, VehicleHistory, SignedDocument } from '../types';
 
 const LATENCY = 500; // ms
 
@@ -17,7 +17,7 @@ let shifts = [...mockShifts];
 let medicalSupplies = [...mockMedicalSupplies];
 let interestData = [...mockInterestData];
 let fuelLogs = [...mockFuelLogs];
-let signatureDocs = [...mockSignatureDocuments];
+let signedDocuments = [...mockSignedDocuments];
 let runtimeAlerts: Alert[] = [...mockAlerts];
 
 // Helper to generate simple tokens
@@ -544,33 +544,20 @@ export const api = {
       return true;
   },
 
-  // BoldSign / Digital Signature API
-  getSignatureDocuments: async () => {
-    const response = await fetch('/api/boldsign/list');
-    if (!response.ok) {
-        throw new Error('Error fetching documents');
-    }
-    const data = await response.json();
-    return data.result || [];
+  // AutoFirma / Digital Signature API
+  getSignedDocuments: async () => {
+      await sleep(LATENCY);
+      return signedDocuments;
   },
 
-  sendSignatureDocument: async (title: string, message: string, file: File, signerName: string, signerEmail: string) => {
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('message', message);
-    formData.append('file', file);
-    formData.append('signerName', signerName);
-    formData.append('signerEmail', signerEmail);
-
-    const response = await fetch('/api/boldsign/send', {
-        method: 'POST',
-        body: formData
-    });
-
-    if (!response.ok) {
-        throw new Error('Error sending document');
-    }
-    
-    return await response.json();
+  saveSignedDocument: async (doc: Omit<SignedDocument, 'id'>) => {
+      await sleep(LATENCY);
+      // In production: POST /api/signatures/upload
+      const newDoc = {
+          ...doc,
+          id: `sd${Date.now()}`
+      };
+      signedDocuments = [newDoc, ...signedDocuments];
+      return newDoc;
   }
 };

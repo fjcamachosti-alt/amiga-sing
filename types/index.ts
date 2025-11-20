@@ -208,18 +208,12 @@ export interface InterestData {
     updatedAt: string;
 }
 
-// BoldSign Types
-export interface Signer {
-    name: string;
-    email: string;
-    status?: 'NotCompleted' | 'Completed' | 'Declined' | 'Revoked';
-}
-
-export interface SignatureDocument {
-    documentId: string;
-    title: string;
-    message: string;
-    status: 'InProgress' | 'Completed' | 'Declined' | 'Revoked' | 'Draft';
-    createdDate: string;
-    signers: Signer[];
+// AutoFirma / Digital Signature Types
+export interface SignedDocument {
+    id: string;
+    originalName: string;
+    signedName: string;
+    signedDate: string;
+    signedBy: string; // User name
+    fileUrl?: string;
 }

@@ -1,5 +1,5 @@
 
-import { Vehicle, User, Alert, Incident, Client, Supplier, ERPFile, Shift, VehicleStatus, VehicleVisibility, UserRole, IncidentStatus, MedicalSupply, InterestData, FuelLog, SignatureDocument } from '../types';
+import { Vehicle, User, Alert, Incident, Client, Supplier, ERPFile, Shift, VehicleStatus, VehicleVisibility, UserRole, IncidentStatus, MedicalSupply, InterestData, FuelLog, SignedDocument } from '../types';
 
 export const mockVehicles: Vehicle[] = [
   {
@@ -234,24 +234,19 @@ export const mockFuelLogs: FuelLog[] = [
     { id: 'fl2', vehicleId: '1', date: '2023-10-27', liters: 40.0, cost: 65.00, mileage: 147900, performedBy: 'Carlos Sánchez' },
 ];
 
-export const mockSignatureDocuments: SignatureDocument[] = [
+export const mockSignedDocuments: SignedDocument[] = [
     {
-        documentId: 'doc_001',
-        title: 'Contrato de Confidencialidad - C. Sánchez',
-        message: 'Por favor firmar antes del turno',
-        status: 'Completed',
-        createdDate: '2024-01-15T10:00:00Z',
-        signers: [{ name: 'Carlos Sánchez', email: 'tecnico@amiga.com', status: 'Completed' }]
+        id: 'sd1',
+        originalName: 'Contrato_Trabajo_C_Sanchez.pdf',
+        signedName: 'Contrato_Trabajo_C_Sanchez_SIGNED.pdf',
+        signedDate: '2024-05-10T11:30:00',
+        signedBy: 'Carlos Sánchez'
     },
     {
-        documentId: 'doc_002',
-        title: 'Renovación Protocolo PRL',
-        message: 'Lectura y firma obligatoria',
-        status: 'InProgress',
-        createdDate: '2024-05-01T09:30:00Z',
-        signers: [
-            { name: 'Ana López', email: 'gestor@amiga.com', status: 'Completed' },
-            { name: 'F.J. Camacho', email: 'fj.camacho.sti@gmail.com', status: 'NotCompleted' }
-        ]
+        id: 'sd2',
+        originalName: 'Nomina_Abril_2024.pdf',
+        signedName: 'Nomina_Abril_2024_SIGNED.pdf',
+        signedDate: '2024-05-02T09:15:00',
+        signedBy: 'Ana López'
     }
 ];

@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const authRoutes = require('./routes/auth.routes');
 const vehicleRoutes = require('./routes/vehicles.routes');
-const boldsignRoutes = require('./routes/boldsign.routes');
+const signatureRoutes = require('./routes/signature.routes'); // Updated
 
 require('dotenv').config();
 
@@ -22,7 +22,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas de la API
 app.use('/api/auth', authRoutes);
 app.use('/api/vehicles', vehicleRoutes);
-app.use('/api/boldsign', boldsignRoutes);
+app.use('/api/signatures', signatureRoutes); // Updated route path
 
 // Ruta de prueba
 app.get('/', (req, res) => {
