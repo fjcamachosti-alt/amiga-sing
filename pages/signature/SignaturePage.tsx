@@ -15,10 +15,15 @@ export const SignaturePage: React.FC = () => {
 
     const fetchDocuments = async () => {
         setLoading(true);
-        const data = await api.getSignatureDocuments();
-        setDocuments(data);
-        setLoading(false);
-        setTimeout(() => window.lucide?.createIcons(), 0);
+        try {
+            const data = await api.getSignatureDocuments();
+            setDocuments(data);
+        } catch (error) {
+            console.error("Error fetching documents:", error);
+        } finally {
+            setLoading(false);
+            setTimeout(() => window.lucide?.createIcons(), 0);
+        }
     };
 
     useEffect(() => {

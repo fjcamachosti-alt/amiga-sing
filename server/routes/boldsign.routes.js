@@ -5,9 +5,10 @@ const multer = require('multer');
 const FormData = require('form-data');
 const axios = require('axios'); // Assuming axios is installed, or use node-fetch
 const fs = require('fs');
+const os = require('os');
 
 // Configure Multer to handle file uploads in memory or temporary disk
-const upload = multer({ dest: 'temp_uploads/' });
+const upload = multer({ dest: os.tmpdir() });
 
 const BOLDSIGN_API_KEY = process.env.BOLDSIGN_API_KEY;
 const BOLDSIGN_API_URL = 'https://api.boldsign.com/v1';

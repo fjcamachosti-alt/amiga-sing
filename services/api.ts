@@ -546,26 +546,31 @@ export const api = {
 
   // BoldSign / Digital Signature API
   getSignatureDocuments: async () => {
-    await sleep(LATENCY);
-    // In production, this would call: GET /api/boldsign/list
-    return signatureDocs;
+    const response = await fetch('/api/boldsign/list');
+    if (!response.ok) {
+        throw new Error('Error fetching documents');
+    }
+    const data = await response.json();
+    return data.result || [];
   },
 
   sendSignatureDocument: async (title: string, message: string, file: File, signerName: string, signerEmail: string) => {
-    await sleep(LATENCY * 2); // Simulate upload time
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('message', message);
+    formData.append('file', file);
+    formData.append('signerName', signerName);
+    formData.append('signerEmail', signerEmail);
+
+    const response = await fetch('/api/boldsign/send', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error('Error sending document');
+    }
     
-    // In production, this would call: POST /api/boldsign/send (Multipart)
-    
-    const newDoc: SignatureDocument = {
-        documentId: `doc_${Date.now()}`,
-        title: title,
-        message: message,
-        status: 'InProgress',
-        createdDate: new Date().toISOString(),
-        signers: [{ name: signerName, email: signerEmail, status: 'NotCompleted' }]
-    };
-    
-    signatureDocs = [newDoc, ...signatureDocs];
-    return newDoc;
+    return await response.json();
   }
 };
